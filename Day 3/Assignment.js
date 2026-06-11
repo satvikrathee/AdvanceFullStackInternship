@@ -141,7 +141,7 @@ account.withdraw(300);
 // name 
 // age 
 
-function Student(name, age) {
+function StudentFunc(name, age) {
   this.name = name;
   this.age = age;
 }
@@ -149,13 +149,13 @@ function Student(name, age) {
 // Q17 
 // 3 student objects create karo constructor se. 
 
-const student1 = new Student("Satvik", 20);
-const student2 = new Student("ram", 22);
-const student3 = new Student("Aman", 21);
+const studentA1 = new StudentFunc("Satvik", 20);
+const studentA2 = new StudentFunc("ram", 22);
+const studentA3 = new StudentFunc("Aman", 21);
 
 // Q18 
 // Constructor function me greet() method add karo. 
-function Student(name, age) {
+function StudentFunc(name, age) {
   this.name = name;
   this.age = age;
   this.greet = function() {
@@ -188,11 +188,11 @@ function Car(brand, price) {
 // Q21 
 // Student constructor banao aur prototype me greet() method add karo. 
 
-function Student(name, age) {
+function StudentFunc(name, age) {
   this.name = name;
   this.age = age;
 }
-Student.prototype.greet = function() {
+StudentFunc.prototype.greet = function() {
   console.log(`Hello I am ${this.name}`);
 };
 
@@ -200,13 +200,13 @@ Student.prototype.greet = function() {
 // Check karo: 
 // obj.__proto__ === Student.prototype 
 
-const obj = new Student("Ram", 20);
-console.log(obj.__proto__ === Student.prototype);
+const obj = new StudentFunc("Ram", 20);
+console.log(obj.__proto__ === StudentFunc.prototype);
 
 // Q23 
 // Prototype me isAdult() method add karo. 
 
-Student.prototype.isAdult = function() {
+StudentFunc.prototype.isAdult = function() {
   return this.age >= 18;
 };
 
@@ -225,7 +225,7 @@ Student.prototype.isAdult = function() {
 // Q25 
 // Prototype me course property add karo. 
 
-Student.prototype.course = "MERN";
+StudentFunc.prototype.course = "MERN";
 
 // Q26 
 // Check karo: 
@@ -296,30 +296,6 @@ class Student {
     this.name = name;
     this.age = age;
   }
-}
-
-
-// Q34 
-// Class me greet() method add karo. 
-
-class Student {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-  }
-  greet() {
-    console.log(`Hello I am ${this.name}`);
-  }
-}
-
-// Q35 
-// Class me isAdult() method add karo. 
-
-class Student {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-  }
   greet() {
     console.log(`Hello I am ${this.name}`);
   }
@@ -349,9 +325,6 @@ class Animal {
 // Q38 
 // Dog class banao jo Animal ko inherit kare. 
 
-class Dog extends Animal {
-
-}
 
 // Q39 
 // Dog class me bark() method add karo. 
