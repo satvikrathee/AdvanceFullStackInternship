@@ -403,3 +403,314 @@ function withErrorLogging(fn) {
     }
   };
 }
+
+
+// 99 Chainable Validator banao
+// Validator.string()
+// .minLength(3)
+// .maxLength(50)
+// .matches(/^[a-z]+$/)
+// .validate('hello')
+// Har rule fail hone par ValidationError with rule name.
+
+class ValidationError extends Error {
+  constructor(message, rule) {
+    super(message);
+    this.name = 'ValidationError';
+    this.rule = rule;
+  }
+}
+
+class Validator {
+  constructor() {
+    this.rules = [];
+  }
+
+  static string() {
+    const instance = new Validator();
+    instance.rules.push({
+      name: 'string',
+      check: (val) => typeof val === 'string',
+      msg: (val) => `Expected string, got ${typeof val}`
+    });
+    return instance;
+  }
+
+  minLength(length) {
+    this.rules.push({
+      name: 'minLength',
+      check: (val) => typeof val === 'string' && val.length >= length,
+      msg: (val) => `String length must be at least ${length}`
+    });
+    return this;
+  }
+
+  maxLength(length) {
+    this.rules.push({
+      name: 'maxLength',
+      check: (val) => typeof val === 'string' && val.length <= length,
+      msg: (val) => `String length must not exceed ${length}`
+    });
+    return this;
+  }
+
+  matches(regex) {
+    this.rules.push({
+      name: 'matches',
+      check: (val) => typeof val === 'string' && regex.test(val),
+      msg: (val) => `String does not match pattern ${regex}`
+    });
+    return this;
+  }
+
+  validate(value) {
+    for (const rule of this.rules) {
+      if (!rule.check(value)) {
+        throw new ValidationError(rule.msg(value), rule.name);
+      }
+    }
+    return true;
+  }
+}
+
+// --- Testing the Validator ---
+try {
+  Validator.string()
+    .minLength(3)
+    .maxLength(50)
+    .matches(/^[a-z]+$/)
+    .validate('hello');
+    
+  console.log("Validation passed!");
+} catch (error) {
+  if (error instanceof ValidationError) {
+    console.error(`Rule failed: ${error.rule} | Message: ${error.message}`);
+  }
+}
+
+// 36 Event delegation implement karo
+// ul pe sirf ek listener. Kisi bhi li click par text log ho.
+// Dynamically add hone wale li bhi handle hon — no rebinding.
+
+const ul = document.querySelector('ul');
+
+ul.addEventListener('click', (event) => {
+  const li = event.target.closest('li');
+  
+  if (li && ul.contains(li)) {
+    console.log(li.textContent);
+  }
+});
+
+
+// 37 DOM manipulation — vanilla JS only
+// querySelector se paragraph ka text change karo.
+// Background color bhi change karo. Zero jQuery/libraries
+
+const p = document.querySelector('p');
+
+p.textContent = 'Updated text content!';
+p.style.backgroundColor = 'lightblue';
+
+// 38 virtualDOM(config) function banao
+// Input: { tag: 'div', props: { id: 'x', class: 'box' },
+// children: [{ tag: 'span', text: 'hi' }] }
+// Output: Real DOM node — recursively build karo.
+
+function virtualDOM(config) {
+  if (typeof config === 'string') {
+    return document.createTextNode(config);
+  }
+
+  const el = document.createElement(config.tag);
+
+  if (config.props) {
+    for (const [key, value] of Object.entries(config.props)) {
+      if (key === 'class') {
+        el.className = value;
+      } else {
+        el.setAttribute(key, value);
+      }
+    }
+  }
+
+  if (config.text !== undefined) {
+    el.textContent = config.text;
+  }
+
+  if (config.children) {
+    config.children.forEach(child => {
+      el.appendChild(virtualDOM(child));
+    });
+  }
+
+  return el;
+}
+
+// 39 Form validation karo — vanilla JS
+// Submit default rokko. Name + email validate karo JS mein.
+// Error messages DOM mein proper jagah dikhao.
+
+const form = document.querySelector('form');
+const nameInput = document.querySelector('#name');
+const emailInput = document.querySelector('#email');
+
+const nameError = document.querySelector('#name-error');
+const emailError = document.querySelector('#email-error');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  let isValid = true;
+
+  nameError.textContent = '';
+  emailError.textContent = '';
+
+  if (nameInput.value.trim() === '') {
+    nameError.textContent = 'Name is required';
+    isValid = false;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailInput.value.trim())) {
+    emailError.textContent = 'Please enter a valid email address';
+    isValid = false;
+  }
+
+  if (isValid) {
+    console.log('Form submitted successfully:', {
+      name: nameInput.value,
+      email: emailInput.value,
+    });
+  }
+});
+
+
+// 41 localStorage wrapper class banao
+// get(key), set(key, val), remove(key), clear() — sab JSON serialize kare.
+// Bonus: set(key, val, ttlSeconds) — expiry support bhi do.
+
+class StorageWrapper {
+  set(key, val, ttlSeconds = null) {
+    const item = {
+      value: val,
+      expiry: ttlSeconds ? Date.now() + ttlSeconds * 1000 : null
+    };
+    localStorage.setItem(key, JSON.stringify(item));
+  }
+
+  get(key) {
+    const data = localStorage.getItem(key);
+    if (!data) return null;
+
+    try {
+      const item = JSON.parse(data);
+      
+      if (item.expiry && Date.now() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      
+      return item.value;
+    } catch (e) {
+      return data;
+    }
+  }
+
+  remove(key) {
+    localStorage.removeItem(key);
+  }
+
+  clear() {
+    localStorage.clear();
+  }
+}
+
+// 46 DOM traversal utility banao
+// getSiblings(el) — saare siblings
+// getAncestors(el) — parent chain
+// getAllDescendants(el) — sab children recursively
+
+function getSiblings(el) {
+  if (!el || !el.parentNode) return [];
+  return Array.from(el.parentNode.children).filter(child => child !== el);
+}
+
+function getAncestors(el) {
+  const ancestors = [];
+  let current = el ? el.parentElement : null;
+  
+  while (current) {
+    ancestors.push(current);
+    current = current.parentElement;
+  }
+  
+  return ancestors;
+}
+
+function getAllDescendants(el) {
+  const descendants = [];
+  if (!el) return descendants;
+
+  function traverse(node) {
+    Array.from(node.children).forEach(child => {
+      descendants.push(child);
+      traverse(child);
+    });
+  }
+
+  traverse(el);
+  return descendants;
+}
+
+// 50 Dynamic table banao programmatically
+// createElement + appendChild se — no innerHTML.
+// Data: array of { name, age, city }.
+// Header row bhi dynamically banao.
+
+function createDynamicTable(data) {
+  if (!data || data.length === 0) return document.createElement('table');
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const tbody = document.createElement('tbody');
+
+  const headerRow = document.createElement('tr');
+  const headings = Object.keys(data[0]);
+
+  headings.forEach(heading => {
+    const th = document.createElement('th');
+    th.textContent = heading.charAt(0).toUpperCase() + heading.slice(1);
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    
+    headings.forEach(key => {
+      const td = document.createElement('td');
+      td.textContent = item[key];
+      row.appendChild(td);
+    });
+    
+    tbody.appendChild(row);
+  });
+
+  table.appendChild(thead);
+  table.appendChild(tbody);
+
+  return table;
+}
+
+
+const sampleData = [
+  { name: 'Amit', age: 28, city: 'Delhi' },
+  { name: 'Priya', age: 24, city: 'Mumbai' },
+  { name: 'Rahul', age: 31, city: 'Bangalore' }
+];
+
+const generatedTable = createDynamicTable(sampleData);
+document.body.appendChild(generatedTable);
+
+

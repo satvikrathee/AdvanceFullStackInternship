@@ -169,3 +169,122 @@
 
 
 // Answer == "Custom: msg"
+
+// 26 Bubbling order mein output kya hoga?
+// // <div id='parent'><span id='child'>click</span></div>
+// // Dono pe click listener (bubbling)
+// // Span click karne par?
+
+// Answer == child
+  //         parent
+
+
+//   27 Kya aayega?
+// const el = document.createElement('div');
+// el.textContent = '<b>bold</b>';
+// console.log(el.innerHTML)
+
+// Answer == &lt;b&gt;bold&lt;/b&gt;
+
+// 29 Kya return karega aur kyun?
+// localStorage.setItem('x', { a: 1 });
+// console.log(localStorage.getItem('x'));
+
+//Answer== "[object Object]"
+
+// 30 Kya print hoga?
+// const ul = document.createElement('ul');
+// ul.innerHTML = '<li>A</li><li>B</li>';
+// const items = ul.querySelectorAll('li');
+// items.forEach(i => i.remove());
+// console.log(ul.children.length)
+
+// Answer == 0 
+
+// 32 Kya print hoga?
+// const p = document.createElement('p');
+// document.body.appendChild(p);
+// p.addEventListener('click', () => console.log('fired'));
+// p.dispatchEvent(new Event('click'));
+// p.remove();
+// p.dispatchEvent(new Event('click'));
+
+// Answer == (fired aur fired) 
+
+//34 e.target vs e.currentTarget — fark kya hai?
+// Parent pe listener, child pe click hua
+// e.target = ?
+// e.currentTarget = ?
+// Concrete example ke saath explain karo.'
+
+// Answer == e.target aur e.currentTarget ke beech ka sabse bada farq yeh hai ki ek batata hai click kahan shuru hua aur doosra batata hai listener kahan laga hai.
+
+// 35 Kya data milega — dono cases mein?
+// sessionStorage.setItem('key', 'val');
+// // 1) Same tab, page reload karo
+// // 2) Naya tab kholo
+// // Dono mein milega ya nahi?
+
+// Answer == 
+// 1) Same tab, page reload karoMilega ('val').
+// 2) Naya tab kholoNahi milega (null).
+
+// 56 Kya print hoga?
+// const div = document.createElement('div');
+// div.innerHTML = 'hi <scr' + 'i
+
+// Answer == hi <script>console.log("executed");</script>
+
+
+// 57 Capturing vs Bubbling — exact order kya hoga?
+// el.addEventListener('click', fn1, true) // capturing
+// el.addEventListener('click', fn2, false) // bubbling
+// // Nested elements: parent fi child click par sequence
+
+// Answer == 
+// 1. Parent Capturing (fn1 of Parent)
+// 2. Child Target/Capturing (fn1 of Child)
+// 3. Child Target/Bubbling (fn2 of Child)
+// 4. Parent Bubbling (fn2 of Bottom Parent)
+
+
+// 58 cloneNode behavior batao:
+// node.cloneNode(true) // deep clone
+// node.cloneNode(false) // shallow clone
+// // Event listeners clone honge kya?
+
+// Answer == Nahi, event listeners clone nahi honge—chahe aap deep clone karein ya shallow clone
+
+//59 DocumentFragment kyun use karte hain?
+// Option A: 100 baar seedha appendChild()
+// Option B: Fragment mein add karke ek baar append
+// Reflow/repaint mein kya farq padta hai?
+
+// Answer == Option B (Fragment mein add karke ek baar append) sabse behtareen aur efficient tareeqa hai.
+
+// 74 Kya hoga?
+// const a = document.createElement('a');
+// a.href = 'javascript:void(0)';
+// a.click();
+// console.log('after click')
+
+// Answer== after click
+
+// 84 Kya print hoga?
+// const div = document.createElement('div');
+// div.addEventListener('click', () => console.log(1));
+// const clone = div.cloneNode(true);
+// document.body.append(clone);
+// clone.click()
+
+// Answer== Output will   be blank 
+
+// 98 Kya print hoga aur kyun?
+// document.body.innerHTML = '';
+// document.body.innerHTML = '<div id=x></div>';
+// const el = document.getElementById('x');
+// document.body.innerHTML = '<div id=x></div>';
+// el.textContent = 'hi';
+// console.log(document.getElementById('x').textContent)
+
+// Answer == "" , it will print empty string on console
