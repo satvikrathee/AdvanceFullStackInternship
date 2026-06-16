@@ -568,32 +568,20 @@ stepA(() => {
 // Create callback-based weather fetching simulation. 
 
 
-function getCoordinates(city, callback) {
-    console.log(`Fetching coordinates for ${city}...`);
+function fetchWeather(callback) {
     setTimeout(() => {
-        let coords = { lat: 28.7, lon: 77.1 };
-        callback(coords);
-    }, 1000);
+        let weather = {
+            city: "Delhi",
+            temp: "35°C"
+        };
+
+        callback(weather);
+    }, 2000);
 }
 
-function getRawWeatherData(coords, callback) {
-    console.log(`Fetching raw atmospheric metrics at Lat: ${coords.lat}...`);
-    setTimeout(() => {
-        let metrics = { tempCelsius: 32, humidity: "65%" };
-        callback(metrics);
-    }, 1200);
-}
-
-function formatWeatherReport(metrics) {
-    console.log(`--- Weather Report ---`);
-    console.log(`Temperature: ${metrics.tempCelsius}°C\nHumidity: ${metrics.humidity}`);
-}
-
-// Execution
-getCoordinates("New Delhi", (coords) => {
-    getRawWeatherData(coords, (metrics) => {
-        formatWeatherReport(metrics);
-    });
+fetchWeather((data) => {
+    console.log("City:", data.city);
+    console.log("Temperature:", data.temp);
 });
 
 
