@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <button onclick="runSimulation()">Trigger setTimeout</button>
+    
+    <div>
+        <h3>Call Stack</h3>
+        <div id="callStack"></div>
+    </div>
+    <div>
+        <h3>Web API</h3>
+        <div id="webApi"></div>
+    </div>
+    <div>
+        <h3>Callback Queue</h3>
+        <div id="callbackQueue"></div>
+    </div>
+
+    <script>
+        const stackEl = document.getElementById('callStack');
+        const apiEl = document.getElementById('webApi');
+        const queueEl = document.getElementById('callbackQueue');
+
+        function runSimulation() {
+            stackEl.innerText = "setTimeout()";
+
+            setTimeout(() => {
+                stackEl.innerText = "";
+                apiEl.innerText = "Timer (2s)";
+
+                setTimeout(() => {
+                    apiEl.innerText = "";
+                    queueEl.innerText = "cb()";
+
+                    setTimeout(() => {
+                        queueEl.innerText = "";
+                        stackEl.innerText = "cb() executing";
+
+                        setTimeout(() => {
+                            stackEl.innerText = "";
+                        }, 1000);
+                    }, 1000);
+                }, 2000);
+            }, 800);
+        }
+    </script>
+</body>
+</html>

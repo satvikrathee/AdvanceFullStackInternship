@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <h1>Async Task Manager</h1>
+    
+    <input type="text" id="taskName" placeholder="Task description...">
+    <button onclick="addNewTask()">Queue Task</button>
+
+    <div id="taskList"></div>
+
+    <script>
+        let taskCounter = 0;
+
+        function addNewTask() {
+            const nameInput = document.getElementById('taskName');
+            if (!nameInput.value.trim()) return;
+
+            taskCounter++;
+            const taskId = `task-${taskCounter}`;
+            const taskName = nameInput.value;
+
+            const card = document.createElement('div');
+            card.id = taskId;
+            card.innerHTML = `<strong>${taskName}</strong> - <span class="status">Pending</span>`;
+            document.getElementById('taskList').appendChild(card);
+            
+            nameInput.value = '';
+            triggerAsyncTask(taskId);
+        }
+
+        function triggerAsyncTask(id) {
+            setTimeout(() => {
+                const card = document.getElementById(id);
+                card.querySelector('.status').innerText = "Processing";
+
+                setTimeout(() => {
+                    card.querySelector('.status').innerText = "Completed";
+                }, 3000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
