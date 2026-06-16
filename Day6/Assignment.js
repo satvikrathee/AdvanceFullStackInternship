@@ -487,7 +487,7 @@ function processPayment(student, callback) {
 }
 
 function finalAdmission(student) {
-    console.log(`Admission Granted! Welcome to the university, ${student}. 🎉`);
+    console.log(`Admission Granted! Welcome to the university, ${student}.`);
 }
 
 
