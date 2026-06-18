@@ -2,82 +2,112 @@
 // Create an async function that returns: 
 // Hello World 
 
-async function getHelloWorld() {
-  return "Hello World";
+async function getMessage() {
+    return "Hello World";
 }
+
+console.log(getMessage());
+
 
 // Q2 
 // Create an async function that returns a user object. 
 
 async function getUser() {
-  return { id: 1, name: "Satvik", email: "satvik@example.com" };
+    return {
+        id: 1,
+        name: "Satvik",
+        age: 20
+    };
 }
+
+console.log(getUser());
+
 
 // Q3 
 // Create an async function that returns an array of products. 
 
 async function getProducts() {
-  return [
-    { id: 101, name: "Laptop", price: 999 },
-    { id: 102, name: "Phone", price: 499 }
-  ];
+    return ["Laptop", "Mobile", "Headphones"];
 }
+
+console.log(getProducts());
+
 
 // Q4 
 // Create an async function that returns current date. 
 
 async function getCurrentDate() {
-  return new Date();
+    return new Date();
 }
+
+console.log(getCurrentDate());
+
 
 // Q5 
 // Create an async function that returns random number. 
 
 async function getRandomNumber() {
-  return Math.random();
+    return Math.floor(Math.random() * 100);
 }
+
+console.log(getRandomNumber());
+
 
 // Q6 
 // Create an async function that returns student details. 
 
-async function getStudentDetails() {
-  return { rollNo: 23, name: "Satvik Rathee", grade: "A" };
+async function getStudent() {
+    return {
+        rollNo: 101,
+        name: "Satvik",
+        course: "BCA"
+    };
 }
+
+console.log(getStudent());
+
 
 // Q7 
 // Create an async function that returns company details. 
 
-async function getCompanyDetails() {
-  return { name: "TechCorp", industry: "Software", employees: 500 };
+async function getCompany() {
+    return {
+        name: "Google",
+        location: "USA"
+    };
 }
+
+console.log(getCompany());
+
 
 // Q8 
 // Create an async function that returns cart items. 
 async function getCartItems() {
-  return [
-    { itemId: 1, title: "Book", quantity: 2 },
-    { itemId: 2, title: "Pen", quantity: 5 }
-  ];
+    return ["Laptop", "Mouse", "Keyboard"];
 }
+
+console.log(getCartItems());
 
 
 // Q9 
 // Create an async function that returns total order amount. 
 
-
-async function getTotalOrderAmount() {
-  return 149.99;
+async function getTotalAmount() {
+    return 4999;
 }
+
+console.log(getTotalAmount());
+
+
 // Q10 
 // Create an async function and verify it always returns Promise. 
 
-async function checkPromise() {
-  return "Testing";
+async function getData() {
+    return 100;
 }
 
-const result = checkPromise();
+console.log(getData());
 
-console.log(result instanceof Promise); 
 
 // Q11 
 // Create: 
@@ -85,14 +115,19 @@ console.log(result instanceof Promise);
 // Use await to print user. 
 
 async function getUser() {
-  return { id: 1, name: "Alex" };
+    return {
+        id: 1,
+        name: "Satvik"
+    };
 }
 
-async function run() {
-  const user = await getUser();
-  console.log(user);
+async function main() {
+    const user = await getUser();
+    console.log(user);
 }
-run();
+
+main();
+
 
 // Q12 
 // Create: 
@@ -100,14 +135,15 @@ run();
 // Use await. 
 
 async function getProduct() {
-  return { id: 101, name: " Mouse", price: 25 };
+    return "Laptop";
 }
 
-async function run() {
-  const product = await getProduct();
-  console.log(product);
+async function main() {
+    const product = await getProduct();
+    console.log(product);
 }
-run();
+
+main();
 
 // Q13 
 // Create: 
@@ -115,14 +151,15 @@ run();
 // Use await. 
 
 async function getOrders() {
-  return [{ orderId: "A12", total: 150 }];
+    return ["Order1", "Order2", "Order3"];
 }
 
-async function run() {
-  const orders = await getOrders();
-  console.log(orders);
+async function main() {
+    const orders = await getOrders();
+    console.log(orders);
 }
-run();
+
+main();
 
 // Q14 
 // Create: 
@@ -130,14 +167,15 @@ run();
 // Use await. 
 
 async function getPayment() {
-  return { status: "Success", transactionId: "TXN998" };
+    return "Payment Successful";
 }
 
-async function run() {
-  const payment = await getPayment();
-  console.log(payment);
+async function main() {
+    const payment = await getPayment();
+    console.log(payment);
 }
-run();
+
+main();
 
 // Q15 
 // Create delay function: 
@@ -182,16 +220,25 @@ printNumbers();
 // Q18 
 // Create async greeting system. 
 
-async function greetUser(name) {
-  await wait(500);
-  return `Hello, ${name}! Welcome back.`;
+function wait(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
 }
 
-async function runGreeting() {
-  const message = await greetUser("Satvik");
-  console.log(message);
+async function greet() {
+    await wait(1000);
+
+    return "Hello Satvik";
 }
-runGreeting();
+
+async function main() {
+    const message = await greet();
+    console.log(message);
+}
+
+main();
+
 
 // Q19 
 // Create async OTP verification. 
@@ -207,26 +254,28 @@ async function runVerification() {
 }
 runVerification();
 
+
 // Q20 
 // Create async login simulation.
 
-async function login(username, password) {
-  console.log("Authenticating...");
-  await wait(1500);
-  
-  if (username === "admin" && password === "secret") {
-    return { success: true, token: "JWT_TOKEN_123" };
-  }
-  return { success: false, error: "Invalid credentials" };
+function wait(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
 }
 
-async function runLogin() {
-  const result = await login("admin", "secret");
-  console.log(result);
+async function login() {
+    await wait(2000);
+
+    return "Login Successful";
 }
-runLogin();
 
+async function main() {
+    const result = await login();
+    console.log(result);
+}
 
+main();
 // Q21 
 // Create async function that throws error. 
 // Handle using try catch. 
@@ -713,7 +762,7 @@ const s3 = () => new Promise(r => setTimeout(() => r("Success 3"), 100));
 async function getFirstSuccess() {
   try {
     const firstSuccessful = await Promise.any([s1(), s2(), s3()]);
-    console.log(firstSuccessful); // Outputs: "Success 3"
+    console.log(firstSuccessful); 
   } catch (error) {
     console.log("All failed");
   }
